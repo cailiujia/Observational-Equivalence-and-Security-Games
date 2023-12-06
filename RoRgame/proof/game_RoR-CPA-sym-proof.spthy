@@ -1,0 +1,78 @@
+maude tool: 'maude'
+ checking version: 2.7.1. OK.
+ checking installation: OK.
+
+theory game_RoR_CPA_sym begin
+
+// Function signature and definition of the equational theory E
+
+functions: dec/2, enc/2, fst/1, pair/2, snd/1
+equations:
+    dec(enc(x, k), k) = x,
+    fst(<x.1, x.2>) = x.1,
+    snd(<x.1, x.2>) = x.2
+
+
+
+rule (modulo E) Setup:
+   [ Fr( ~k ) ] --[ Init_once( '1' ) ]-> [ !UseKey( ~k ) ]
+
+rule (modulo E) Select:
+   [ Fr( ~m1 ) ] --[ Init_once( '2' ) ]-> [ Choose( ~m1 ), Out( ~m1 ) ]
+
+rule (modulo E) Attacker_ENCoracle:
+   [ In( m ), !UseKey( k ) ] --> [ Out( enc(m, k) ) ]
+
+rule (modulo E) Attack_diff:
+   [ !UseKey( k ), Choose( m1 ), Fr( ~r ) ]
+  --[ Init_once( '3' ) ]->
+   [ Out( diff(enc(m1, k), enc(~r, k)) ) ]
+
+restriction Init [right]:
+  "∀ #i #j x. ((Init_once( x ) @ #i) ∧ (Init_once( x ) @ #j)) ⇒ (#i = #j)"
+  // safety formula
+
+restriction Init [left]:
+  "∀ #i #j x. ((Init_once( x ) @ #i) ∧ (Init_once( x ) @ #j)) ⇒ (#i = #j)"
+  // safety formula
+
+/* All well-formedness checks were successful. */
+
+diffLemma Observational_equivalence:
+rule-equivalence
+  case Rule_Equality
+  backward-search
+    case LHS
+    step( simplify )
+    step( solve( !KD( x ) ▶₁ #i ) )
+      case Attack_diff
+      step( solve( (#vl, 0) ~~> (#i, 1) ) )
+        case enc
+        step( solve( !UseKey( k ) ▶₀ #vr ) )
+          case Setup
+          step( solve( Choose( m1 ) ▶₁ #vr ) )
+            case Select
+            step( solve( !KU( enc(~m1, ~k) ) @ #vk ) )
+              case Attacker_ENCoracle
+              step( solve( !KU( ~m1 ) @ #vk.1 ) )
+                case Select
+                by ATTACK // trace found
+              qed
+            qed
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+end
+
+==============================================================================
+summary of summaries:
+
+analyzed: game_RoR-CPA-sym.spthy
+
+  DiffLemma:  Observational_equivalence : falsified - found trace (10 steps)
+
+==============================================================================

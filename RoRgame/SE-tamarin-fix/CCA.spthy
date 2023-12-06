@@ -1,0 +1,45 @@
+theory game_RoR_CCA_sym
+begin
+
+functions: enc/2,dec/2
+equations:dec(enc(x,k),k)=x
+
+rule Setup:
+    [ Fr(~k) ]
+  --[ Init_once('1') ]->
+    [ !UseKey(~k) ]
+
+
+rule Attack_diff:
+let
+    c1=enc(~m1,k)
+    c2=enc(~r,k) 
+in
+    [ !UseKey(k),Fr(~m1),Fr(~r)]
+  --[ Init_once('3') ]->
+    [ Out(diff(c1,c2)),State(c1,c2) ,Out(~m1)]
+
+rule Attacker_ENCoracle:
+    [ In(m),!UseKey(k)]
+  --[ ]->
+    [ Out(enc(m,k)) ]
+
+rule Attacker_DECoracle2:
+let
+	c=enc(m,k)
+in
+    [ State(c1,c2),In(c),!UseKey(k)]
+  --[ Neq(c,c1),Neq(c,c2)]->
+    [ Out(dec(c1,k)) ]
+
+restriction Neq:
+"
+    All x #i. Neq(x,x) @ i ==> F
+"
+
+restriction Init:
+" 
+   All #i #j x. Init_once(x)@i & Init_once(x)@j ==> #i=#j
+"
+
+end

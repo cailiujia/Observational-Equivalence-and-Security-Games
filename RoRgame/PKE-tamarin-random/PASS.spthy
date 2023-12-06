@@ -1,0 +1,36 @@
+theory PASS
+begin
+builtins: hashing,asymmetric-encryption
+functions: enc/3,dec/2,pk/1
+equations: dec(enc(x,pk(k),r),k)=x
+
+rule register:
+    [ Fr(~sk) ]
+  --[ Init_once('1') ]->
+    [ Out(pk(~sk)),!Key(~sk) ]
+
+rule Select:
+    [Fr(~m1)]
+  --[Init_once('2') ]->
+    [ Choose(~m1),Out(~m1) ]
+
+rule Attack_diff:
+let
+	c1 = enc(m1,pk(sk),~r1)
+	c2 = enc(~r,pk(sk),~r2)
+in
+    [ !Key(sk),Choose(m1),Fr(~r) ,Fr(~r1),Fr(~r2)]
+  --[ Neq(m1,~r) ]->
+    [ Out(diff(c1,c2) ) ]
+
+restriction Neq:
+"
+    All x #i. Neq(x,x) @ i ==> F
+"
+
+restriction Init:
+" 
+   All a #i #j. Init_once(a)@i & Init_once(a)@j ==> #i=#j
+"
+
+end

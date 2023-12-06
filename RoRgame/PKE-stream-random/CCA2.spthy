@@ -1,0 +1,50 @@
+theory CCA
+begin
+builtins: hashing,asymmetric-encryption,xor
+functions: enc/2,dec/2,pk/1
+equations: dec(enc(x,pk(k)),k)=x
+
+rule register:
+    [ Fr(~sk) ]
+  --[ Init_once('1') ]->
+    [ Out(pk(~sk)),!Key(~sk) ]
+
+rule Select:
+    [Fr(~m1)]
+  --[Init_once('2') ]->
+    [ Choose(~m1),Out(~m1) ]
+
+rule Attack_diff:
+let
+  c1 = enc(m1,pk(sk)) XOR ~r1
+  c2 = enc(~r,pk(sk)) XOR ~r2
+in
+    [ !Key(sk),Choose(m1),Fr(~r) ,Fr(~r1),Fr(~r2)]
+  --[ Neq(m1,~r) ,Time2()]->
+    [ Out(diff(c1,c2) ) ]
+
+
+rule Attacker_DECoracle:
+let
+m1= dec((x XOR r),key)
+m2= dec((x XOR r1),key)
+m3= dec((x XOR r2),key)
+in
+    [ In(x),!Key(key),State(c1,c2,r1,r2) ,In(r)]
+  --[ Init_once('2'),Neq(x,c1),Neq(x,c2) ]->
+    [ Out(<m1,<m2,m3>>) ]
+
+
+
+
+restriction Neq:
+"
+    All x #i. Neq(x,x) @ i ==> F
+"
+
+restriction Init:
+" 
+   All a #i #j. Init_once(a)@i & Init_once(a)@j ==> #i=#j
+"
+
+end

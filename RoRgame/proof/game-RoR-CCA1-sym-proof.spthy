@@ -1,0 +1,50 @@
+lemma Observational_equivalence:
+rule-equivalence
+  case Rule_Attack_diff
+  by sorry
+next
+  case Rule_Attacker_DECoracle
+  by sorry
+next
+  case Rule_Attacker_ENCoracle
+  by sorry
+next
+  case Rule_Destrd_0_dec
+  by sorry
+next
+  case Rule_Destrd_0_fst
+  by sorry
+next
+  case Rule_Destrd_0_snd
+  by sorry
+next
+  case Rule_Equality
+  backward-search
+    case LHS
+    step( simplify )
+    step( solve( !KD( x ) ▶₁ #i ) )
+      case Attack_diff_case_1
+      step( solve( (#vl, 0) ~~> (#i, 1) ) )
+        case enc
+        step( solve( !UseKey( k ) ▶₀ #vr ) )
+          case Setup
+          step( solve( !KU( enc(~m1, ~k) ) @ #vk ) )
+            case Attacker_ENCoracle
+            step( solve( !KU( ~m1 ) @ #vk.1 ) )
+              case Attack_diff_case_2
+              by ATTACK // trace found
+            qed
+          qed
+        qed
+      qed
+    qed
+  qed
+next
+  case Rule_Send
+  by sorry
+next
+  case Rule_Setup
+  by sorry
+qed
+
+end

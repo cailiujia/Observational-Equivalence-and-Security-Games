@@ -1,0 +1,55 @@
+theory game_RoR_CCA1_sym
+begin
+
+builtins: xor
+
+functions: PRF/2
+
+rule Setup:
+    [ Fr(~k) ]
+  --[ Init_once('1') ]->
+    [ !UseKey(~k) ]
+
+rule Select:
+    [Fr(~m1)]
+  --[Init_once('2') ]->
+    [ Choose(~m1),Out(~m1) ]
+
+rule Attack_diff:
+let
+  c1=m1 XOR PRF(k,~r1)
+  c2=~r XOR PRF(k,~r2)
+in
+    [ !UseKey(k),Choose(m1),Fr(~r), Fr(~r1),Fr(~r2)]
+  --[ Init_once('3') ,Time2()]->
+    [ Out(diff(c1,c2) )]
+
+rule Attacker_ENCoracle:
+let
+  c = m XOR PRF(k,~r)
+in
+    [ In(m),!UseKey(k),Fr(~r)]
+  --[  ]->
+    [ Out(c) ,State2(~r)]
+
+
+rule Attacker_DECoracle:
+let
+  m = x XOR PRF(k,r)
+in
+    [ In(x),State2(r),!UseKey(k)]
+  --[ Time1(),Init_once('D1') ]->
+    [ Out(m) ]
+
+
+
+restriction Init:
+" 
+   All #i #j x. Init_once(x)@i & Init_once(x)@j ==> #i=#j
+"
+
+restriction Time:
+"
+  All #i #j. Time1()@i & Time2()@j ==> #i<#j
+"
+end

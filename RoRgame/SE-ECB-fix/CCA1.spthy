@@ -1,0 +1,59 @@
+theory game_IND_CCA1_sym
+begin
+
+functions: enc/2,dec/2
+equations:dec(enc(x,k),k)=x
+
+rule Setup:
+    [ Fr(~k) ]
+  --[ Init_once('1') ]->
+    [ !UseKey(~k) ]
+
+rule Select:
+let
+  m1=<~m11,<~m12,~m13>>
+in
+    [Fr(~m11),Fr(~m12),Fr(~m13)]
+  --[Init_once('2') ]->
+    [ 
+    Choose(m1),
+    Out(m1) 
+    ]
+
+rule Attack_diff:
+let
+  c1 = <enc(m11,k),<enc(m12,k),enc(m13,k)>>
+  c2 = <enc(~r11,k),<enc(~r12,k),enc(~r13,k)>>
+  m1 = <m11,<m12,m13>>
+  m2 = <~r11,<~r12,~r13>>
+in
+    [ !UseKey(k),Choose(<m11,<m12,m13>>) ,Fr(~r11),Fr(~r12),Fr(~r13)]
+  --[ Neq(m1,m2),Init_once('3'),Time2() ]->
+    [ Out(diff(c1,c2)) ]
+
+rule Attacker_ENCoracle:
+    [ In(m),!UseKey(k)]
+  --[  ]->
+    [ Out(enc(m,k)) ]
+
+rule Attacker_DECoracle:
+    [ In(enc(m,k)),!UseKey(k) ]
+  --[ Time1() ]->
+    [ Out(m) ]
+
+
+restriction Neq:
+"
+    All x #i. Neq(x,x) @ i ==> F
+"
+
+restriction Init:
+" 
+   All #i #j x. Init_once(x)@i & Init_once(x)@j ==> #i=#j
+"
+
+restriction Time:
+"
+  All #i #j. Time1()@i & Time2()@j ==> #i<#j
+"
+end

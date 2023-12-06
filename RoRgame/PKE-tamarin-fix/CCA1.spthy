@@ -1,0 +1,48 @@
+theory CCA
+begin
+
+functions: enc/2,dec/2,pk/1
+equations: dec(enc(x,pk(y)),y)=x
+
+rule register:
+    [ Fr(~sk) ]
+  --[ Init_once('1') ]->
+    [ Out(pk(~sk)),!Key(~sk) ]
+
+rule Select:
+    [Fr(~m1)]
+  --[Init_once('2') ]->
+    [ Choose(~m1),Out(~m1) ]
+
+rule Attack_diff:
+let
+	c1 = enc(m1,pk(sk))
+	c2 = enc(~r,pk(sk))
+in
+    [ !Key(sk),Choose(m1),Fr(~r) ]
+  --[ Neq(m1,~r) ,Time2()]->
+    [ Out(diff(c1,c2) ) ]
+
+
+rule Attacker_DECoracle:
+    [ In(enc(x,pk(key))),!Key(key) ]
+  --[ Init_once('2'),Time1() ]->
+    [ Out(x) ]
+
+
+restriction Time:
+"
+	All #i #j. Time1()@i & Time2()@j ==> #i<#j
+"
+
+restriction Neq:
+"
+    All x #i. Neq(x,x) @ i ==> F
+"
+
+restriction Init:
+" 
+   All a #i #j. Init_once(a)@i & Init_once(a)@j ==> #i=#j
+"
+
+end
