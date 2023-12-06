@@ -1,0 +1,93 @@
+theory exDH
+begin
+
+builtins: symmetric-encryption , xor
+functions:
+      h/1,
+      hk/2
+
+rule create_identity:
+[]-->[!Id($C)]
+
+rule Init:
+ [Fr(~k),!Id($A),!Id($B)]
+--[Only_once()]->
+ [!A1(~k,$A,$B),!B1(~k,$B,$A)]
+
+
+
+rule A1:
+ let c = senc(~na,k)
+ in
+ [!A1(k,$A,$B),Fr(~na)]
+--[A1_done(),Only_once1()]->
+ [Out(<$A,$B,c>),A1_state($A,$B,~na)]
+
+rule B1:
+ let 
+      na= sdec(nak,k)
+      c = senc(~nb,k)
+ in
+ [!B1(k,$B,$A),Fr(~nb),In(<$A,$B,nak>)]
+--[B1_done(),Only_once2()]->
+ [B1_state($A,$B,~nb,na),Out(<$A,$B,c,h(na)>)]
+
+rule A2:
+ let 
+    nb = sdec(nbk,k)
+    K_share = hk(na,nb)
+ in
+ [A1_state($A,$B,na),In(<$A,$B,nbk,Ver>),!A1(k,$A,$B)]
+--[
+ A2_done(),
+ Eq(Ver,h(na)),
+ A_Secret($A,$B,K_share),
+ A_Secret_na($A,$B,na),
+ Only_once3()
+ ]->
+ [Out(<$A,$B,h(nb)>)]
+
+rule B2:
+let 
+     K_share = hk(na,nb)
+in 
+ [B1_state($A,$B,nb,na),In(<$A,$B,Ver>)]
+--[
+ B2_done(),
+ Eq(Ver,h(nb)),
+ B_Secret($A,$B,K_share),
+ B_Secret_nb($A,$B,nb),
+ Only_once4()
+ ]->
+ []
+
+
+restriction once:
+        " All  #i #j. Only_once()@i & Only_once()@j ==> #i = #j "
+restriction once1:
+        " All  #i #j. Only_once1()@i & Only_once1()@j ==> #i = #j "
+
+restriction once2:
+        " All  #i #j. Only_once2()@i & Only_once2()@j ==> #i = #j "
+
+restriction once3:
+        " All  #i #j. Only_once3()@i & Only_once3()@j ==> #i = #j "
+restriction once4:
+        " All  #i #j. Only_once4()@i & Only_once4()@j ==> #i = #j "
+restriction equality:
+  "∀ x y #i. (Eq( x, y ) @ #i) ⇒ (x = y)"
+
+lemma can_be_run:  
+    exists-trace  
+   "
+   (Ex C S secret #i #j .  
+   (A_Secret(C, S, secret) @ #i ) &
+   ( B_Secret(C, S, secret) @ #j ) )
+     "
+
+lemma A_secrecy_na: 
+   "All C S x #i. 
+    A_Secret_na(C, S,x) @i ==> not (Ex #j. K(x)@j)" 
+
+
+end 

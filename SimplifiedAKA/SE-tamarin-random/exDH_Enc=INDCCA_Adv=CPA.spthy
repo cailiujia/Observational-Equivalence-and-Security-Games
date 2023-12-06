@@ -1,0 +1,111 @@
+theory exDH_EncINDCCA
+begin
+
+functions: enc/2,dec/2,PRF/2,h/1,hk/2
+equations: dec(enc(x,PRF(k,r)),k)=x
+
+      
+
+rule create_identity:
+[]-->[!Id($C)]
+
+rule Init:
+ [Fr(~k),!Id($A),!Id($B)]
+--[Only_once('1')]->
+ [!A1(~k,$A),!B1(~k,$B)]
+
+
+rule Encoracle:
+[In(m),!Enc(k),Fr(~r2)]
+--[Encora()]->
+[Out(enc(m,PRF(k,~r2)))]
+
+
+rule A1:
+ let c = enc(~na,PRF(k,~r1))
+ in
+ [!A1(k,$A),!Id($B),Fr(~na),Fr(~r1)]
+--[A1_done(),Only_once('2')]->
+ [Out(<$A,$B,c>),A1_state($A,$B,~na),B1_me(~r1)]
+
+rule B1:
+ let 
+      na= dec(enc(nak,PRF(k,r1)),k)
+      c = enc(~nb,PRF(k,~r2))
+ in
+ [!B1(k,$B),!Id($A),Fr(~nb),In(<$A,$B,nak>),A1_state($A,$B,~na),B1_me(r1),Fr(~r2)]
+--[B1_done(),Only_once('3')]->
+ [B1_state($A,$B,~nb,na),Out(<$A,$B,c,h(na)>),A1_me(~r2)]
+
+rule A2:
+ let 
+    nb = dec(enc(nbk,PRF(k,r2)),k)
+    K_share = hk(na,nb)
+ in
+ [A1_state($A,$B,na),In(<$A,$B,nbk,Ver>),!A1(k,$A),A1_me(r2)]
+--[
+ A2_done(),
+ Eq(Ver,h(na)),
+ A_Secret($A,$B,K_share),
+ A_Secret_na($A,$B,na),
+ Only_once('4')
+ ]->
+ [Out(<$A,$B,h(nb)>)]
+
+rule B2:
+let 
+     K_share = hk(na,nb)
+in 
+ [B1_state($A,$B,nb,na),In(<$A,$B,Ver>)]
+--[
+ B2_done(),
+ Eq(Ver,h(nb)),
+ B_Secret($A,$B,K_share),
+ B_Secret_nb($A,$B,nb),
+ Only_once('5')
+ ]->
+ []
+
+
+restriction once:
+        " All  #i #j x. Only_once(x)@i & Only_once(x)@j ==> #i = #j "
+
+restriction equality:
+  "∀ x y #i. (Eq( x, y ) @ #i) ⇒ (x = y)"
+
+lemma can_be_run:  
+    exists-trace  
+     "  
+   (Ex C S secret #i #j .  
+   (A_Secret(C, S, secret) @ #i ) &  
+   ( B_Secret(C, S, secret) @ #j ) )  
+     " 
+
+lemma A_secrecy_na: 
+   "All C S x #i. 
+    A_Secret_na(C, S,x) @i ==> not (Ex #j. K(x)@j)" 
+
+
+ end 
+
+restriction once:
+        " All  #i #j x . Only_once(x)@i & Only_once(x)@j ==> #i = #j "
+
+
+restriction equality:
+  "∀ x y #i. (Eq( x, y ) @ #i) ⇒ (x = y)"
+
+lemma can_be_run:  
+    exists-trace  
+     " 
+   (Ex C S secret #i #j .  
+   (A_Secret(C, S, secret) @ #i ) &  
+   ( B_Secret(C, S, secret) @ #j ) )  
+      " 
+
+lemma A_secrecy_na: 
+   "All C S x #i #j. 
+    A_Secret_na(C, S,x) @i & Encora() @j & #i<#j ==> not (Ex #o. K(x)@o)" 
+
+
+ end 

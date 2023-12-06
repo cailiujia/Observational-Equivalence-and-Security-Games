@@ -1,0 +1,92 @@
+theory exDH_EncINDCPA_AdvCPA
+begin
+
+builtins: xor
+functions:
+      h/1,
+      hk/2
+
+rule create_identity:
+[]-->[!Id($C)]
+
+rule Init:
+ [Fr(~k),!Id($A),!Id($B)]
+--[Only_once('1')]->
+ [!A1(~k,$A,$B),!B1(~k,$B,$A),!Enc(~k)]
+
+rule Encoracle:
+[In(m),!Enc(k)]
+--[Oracledo(),Neq(m,zero)]->
+[Out(m XOR k)]
+
+
+rule A1:
+ let c = ~na XOR k
+ in
+ [!A1(k,$A,$B),Fr(~na)]
+--[A1_done(),Only_once('2')]->
+ [Out(<$A,$B,c>),A1_state($A,$B,~na)]
+
+rule B1:
+ let 
+      na= nak XOR k
+      c = ~nb XOR k
+ in
+ [!B1(k,$B,$A),Fr(~nb),In(<$A,$B,nak>)]
+--[B1_done()]->
+ [B1_state($A,$B,~nb,na),Out(<$A,$B,c,h(na)>)]
+
+rule A2:
+ let 
+    nb = nbk XOR k
+    K_share = hk(na,nb)
+ in
+ [A1_state($A,$B,na),In(<$A,$B,nbk,Ver>),!A1(k,$A,$B)]
+--[
+ A2_done(),
+ Eq(Ver,h(na)),
+ A_Secret($A,$B,K_share),
+ A_Secret_na($A,$B,na),
+ Only_once('3')
+ ]->
+ [Out(<$A,$B,h(nb)>)]
+
+rule B2:
+let 
+     K_share = hk(na,nb)
+in 
+ [B1_state($A,$B,nb,na),In(<$A,$B,Ver>)]
+--[
+ B2_done(),
+ Eq(Ver,h(nb)),
+ B_Secret($A,$B,K_share),
+ B_Secret_nb($A,$B,nb),
+ Only_once('4')
+ ]->
+ []
+
+
+restriction once:
+        " All x #i #j. Only_once(x)@i & Only_once(x)@j ==> #i = #j "
+
+restriction equality:
+  "∀ x y #i. (Eq( x, y ) @ #i) ⇒ (x = y)"
+
+restriction Inequality: 
+"All x #i. Neq(x,x) @ #i ==> F"
+
+lemma can_be_run:  
+    exists-trace  
+     "
+   (Ex C S secret #i #j .  
+   (A_Secret(C, S, secret) @ #i ) &  
+   ( B_Secret(C, S, secret) @ #j ) )  
+     " 
+
+lemma A_secrecy_na: 
+   "All C S x #i  #j . 
+    A_Secret_na(C, S,x) @i & Oracledo() @ #j & #i<#j==> not (Ex #o. K(x)@o)" 
+
+
+
+end 

@@ -1,0 +1,52 @@
+lemma can_be_run:
+  exists-trace
+  "∃ C S secret #i #j.
+         (A_Secret( C, S, secret ) @ #i) ∧
+         (B_Secret( C, S, secret ) @ #j)"
+by sorry
+
+lemma A_secrecy_na:
+  all-traces
+  "∀ C S x #i #o.
+         ((A_Secret_na( C, S, x ) @ #i) ∧ (Ora( ) @ #o)) ⇒
+         (¬(∃ #j. K( x ) @ #j))"
+simplify
+solve( A1_state( $A, $B, x ) ▶₀ #i )
+  case A1
+  solve( !A1( k, $A, $B ) ▶₂ #i )
+    case Init
+    solve( B1_rqn( r2 ) ▶₃ #i )
+      case B1
+      solve( OraD( k.1 ) ▶₁ #o )
+        case Init
+        solve( ENC_DEC( r ) ▶₂ #o )
+          case A1
+          solve( A1_ora( c1 ) ▶₃ #o )
+            case A1
+            solve( B1_ora( c2 ) ▶₄ #o )
+              case B1
+              solve( !KU( ~na ) @ #vk.10 )
+                case DecOracle_case_07
+                solve( !KU( x^(x.1*PRF(~k, ~r1)) ) @ #vk.10 )
+                  case A1_case_1
+                  solve( (#vr.5, 0) ~~> (#vk, 0) )
+                    case Var_fresh_na
+                    solve( !KU( h(~na) ) @ #vk.10 )
+                      case c_h
+                      solve( splitEqs(0) )
+                        case split_case_1
+                        SOLVED // trace found
+                      qed
+                    qed
+                  qed
+                qed
+              qed
+            qed
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+end

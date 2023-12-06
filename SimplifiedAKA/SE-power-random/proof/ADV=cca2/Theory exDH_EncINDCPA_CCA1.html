@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html style="height: 100%; overflow: hidden;"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>Theory: exDH_EncINDCPA_CCA1</title><link rel="stylesheet" href="Theory%20exDH_EncINDCPA_CCA1_files/tamarin-prover-ui.css"><link rel="stylesheet" href="Theory%20exDH_EncINDCPA_CCA1_files/jquery-contextmenu.css"><link rel="stylesheet" href="Theory%20exDH_EncINDCPA_CCA1_files/jquery-ui.css"><script src="Theory%20exDH_EncINDCPA_CCA1_files/jquery.js"></script><script src="Theory%20exDH_EncINDCPA_CCA1_files/jquery-ui.js"></script><script src="Theory%20exDH_EncINDCPA_CCA1_files/jquery-layout.js"></script><script src="Theory%20exDH_EncINDCPA_CCA1_files/jquery-cookie.js"></script><script src="Theory%20exDH_EncINDCPA_CCA1_files/jquery-superfish.js"></script><script src="Theory%20exDH_EncINDCPA_CCA1_files/jquery-contextmenu.js"></script><script src="Theory%20exDH_EncINDCPA_CCA1_files/tamarin-prover-ui.js"></script></head><body class="ui-layout-container" style="position: relative; height: 100%; overflow: hidden; margin: 0px; padding: 0px; border: medium none;"><p class="loading">Loading, please wait...  <a id="cancel" href="#">Cancel</a></p><div class="ui-layout-north ui-layout-pane ui-layout-pane-north" style="position: absolute; margin: 0px; inset: 0px 0px auto; width: auto; z-index: 1; height: 36px; visibility: visible; display: block;"><div class="layout-pane-north"><div id="header-info">Running <a href="http://127.0.0.1:3001/"><span class="tamarin">Tamarin</span></a> 1.6.0</div></div><div id="header-links"><a class="plain-link" href="http://127.0.0.1:3001/">Index</a><a class="plain-link" href="http://127.0.0.1:3001/thy/trace/5/download/exDH_EncINDCPA_CCA1.spthy">Download</a><ul id="navigation" class="sf-js-enabled sf-shadow"><li><a href="#" class="sf-with-ul">Actions<span class="sf-sub-indicator"> »</span></a><ul style="display: none; visibility: hidden;"><li><a target="_blank" href="http://127.0.0.1:3001/thy/trace/5/source">Show source</a></li></ul></li><li class=""><a href="#" class="sf-with-ul">Options<span class="sf-sub-indicator"> »</span></a><ul style="visibility: hidden; display: none;"><li><a id="abbrv-toggle" href="#" class="disabled-option">Abbreviate terms</a></li><li><a id="lvl0-toggle" href="#" class="inactive-option">Graph simplification off</a></li><li><a id="lvl1-toggle" href="#" class="inactive-option">Graph simplification L1</a></li><li><a id="lvl2-toggle" href="#" class="inactive-option">Graph simplification L2</a></li><li><a id="lvl3-toggle" href="#" class="inactive-option">Graph simplification L3</a></li></ul></li></ul></div></div><div class="ui-layout-west ui-layout-pane ui-layout-pane-west ui-layout-pane-hover ui-layout-pane-west-hover ui-layout-pane-open-hover ui-layout-pane-west-open-hover" style="position: absolute; margin: 0px; inset: 37px auto 0px 0px; height: 1307px; z-index: 1; width: 475px; visibility: visible; display: block;"><h1 class="pane-head">Proof scripts</h1><div class="scroll-wrapper" id="proof-wrapper"><div class="monospace" id="proof"><span class="hl_keyword">theory</span> <a class="internal-link help" href="http://127.0.0.1:3001/thy/trace/5/main/help">exDH_EncINDCPA_CCA1</a> <span class="hl_keyword">begin</span><br>
+<br>
+<a class="internal-link" href="http://127.0.0.1:3001/thy/trace/5/main/message"><strong>Message theory</strong> </a><br>
+<br>
+<a class="internal-link" href="http://127.0.0.1:3001/thy/trace/5/main/rules"><strong>Multiset rewriting rules and restrictions</strong> (9)</a><br>
+<br>
+<a class="internal-link" href="http://127.0.0.1:3001/thy/trace/5/main/cases/raw/0/0"><strong>Raw sources</strong> (18 cases, 294 partial deconstructions left)</a><br>
+<br>
+<a class="internal-link" href="http://127.0.0.1:3001/thy/trace/5/main/cases/refined/0/0"><strong>Refined sources </strong> (18 cases, 294 partial deconstructions left)</a><br>
+<br>
+<span class="hl_keyword">lemma</span> can_be_run:<br>
+&nbsp;&nbsp;exists-trace<br>
+&nbsp;&nbsp;"<span class="hl_operator">∃ </span>C S secret #i #j<span class="hl_operator">.</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_operator">(</span>A_Secret( C, S, secret ) <span class="hl_operator">@</span> #i<span class="hl_operator">)</span> <span class="hl_operator">∧</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_operator">(</span>B_Secret( C, S, secret ) <span class="hl_operator">@</span> #j<span class="hl_operator">)</span>"<br>
+<span class="hl_keyword">by</span> <a class="internal-link proof-step sorry-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/can_be_run"><span class="hl_keyword">sorry</span></a><br>
+<br>
+<span class="hl_bad"><span class="hl_keyword">lemma</span> A_secrecy_na:<br>
+&nbsp;&nbsp;all-traces<br>
+&nbsp;&nbsp;"<span class="hl_operator">∀ </span>C S x #i #o<span class="hl_operator">.</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_operator">(</span><span class="hl_operator">(</span>A_Secret_na( C, S, x ) <span class="hl_operator">@</span> #i<span class="hl_operator">)</span> <span class="hl_operator">∧</span> <span class="hl_operator">(</span>Ora( ) <span class="hl_operator">@</span> #o<span class="hl_operator">)</span><span class="hl_operator">)</span> <span class="hl_operator">⇒</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_operator">(</span><span class="hl_operator">¬</span><span class="hl_operator">(</span><span class="hl_operator">∃ </span>#j<span class="hl_operator">.</span> K( x ) <span class="hl_operator">@</span> #j<span class="hl_operator">)</span><span class="hl_operator">)</span>"</span><br>
+<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na"><span class="hl_keyword">simplify</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na"></a><br>
+<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_"><span class="hl_keyword">solve(</span> A1_state( $A, $B, x ) ▶₀ #i <span class="hl_keyword">)</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_"></a><br>
+&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">case</span> A1</span><br>
+&nbsp;&nbsp;<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1"><span class="hl_keyword">solve(</span> !A1( k, $A, $B ) ▶₂ #i <span class="hl_keyword">)</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1"></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">case</span> Init</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init"><span class="hl_keyword">solve(</span> B1_rqn( r2 ) ▶₃ #i <span class="hl_keyword">)</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init"></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">case</span> B1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1"><span class="hl_keyword">solve(</span> OraD( k.1 ) ▶₁ #o <span class="hl_keyword">)</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1"></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">case</span> Init</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init"><span class="hl_keyword">solve(</span> ENC_DEC( r ) ▶₂ #o <span class="hl_keyword">)</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init"></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">case</span> A1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1"><span class="hl_keyword">solve(</span> A1_ora( c1 ) ▶₃ #o <span class="hl_keyword">)</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1"></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">case</span> A1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1"><span class="hl_keyword">solve(</span> B1_ora( c2 ) ▶₄ #o <span class="hl_keyword">)</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1"></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">case</span> B1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1/B1"><span class="hl_keyword">solve(</span> !KU( ~na ) <span class="hl_operator">@</span> #vk.10 <span class="hl_keyword">)</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1/B1"></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">case</span> DecOracle_case_07</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1/B1/DecOracle_case_07"><span class="hl_keyword">solve(</span> !KU( x^(x.1*PRF(~k, ~r1)) ) <span class="hl_operator">@</span> #vk.10 <span class="hl_keyword">)</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1/B1/DecOracle_case_07"></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">case</span> A1_case_1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1/B1/DecOracle_case_07/A1_case_1"><span class="hl_keyword">solve(</span> (#vr.5, 0) <span class="hl_operator">~~&gt;</span> (#vk, 0) <span class="hl_keyword">)</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1/B1/DecOracle_case_07/A1_case_1"></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">case</span> Var_fresh_na</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1/B1/DecOracle_case_07/A1_case_1/Var_fresh_na"><span class="hl_keyword">solve(</span> !KU( h(~na) ) <span class="hl_operator">@</span> #vk.10 <span class="hl_keyword">)</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1/B1/DecOracle_case_07/A1_case_1/Var_fresh_na"></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">case</span> c_h</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="internal-link proof-step hl_bad" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1/B1/DecOracle_case_07/A1_case_1/Var_fresh_na/c_h"><span class="hl_keyword">solve(</span> splitEqs(0) <span class="hl_keyword">)</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1/B1/DecOracle_case_07/A1_case_1/Var_fresh_na/c_h"></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">case</span> split_case_1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="internal-link proof-step hl_bad active-link" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1/B1/DecOracle_case_07/A1_case_1/Var_fresh_na/c_h/split_case_1"><span class="hl_keyword">SOLVED</span> <span class="hl_comment">// trace found</span></a><a class="internal-link remove-step" href="http://127.0.0.1:3001/thy/trace/5/main/proof/A_secrecy_na/_/A1/Init/B1/Init/A1/A1/B1/DecOracle_case_07/A1_case_1/Var_fresh_na/c_h/split_case_1"></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">qed</span></span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">qed</span></span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">qed</span></span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">qed</span></span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">qed</span></span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">qed</span></span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">qed</span></span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">qed</span></span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">qed</span></span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">qed</span></span><br>
+&nbsp;&nbsp;<span class="hl_bad"><span class="hl_keyword">qed</span></span><br>
+<span class="hl_bad"><span class="hl_keyword">qed</span></span><br>
+<br>
+<span class="hl_keyword">end</span><br>
+ </div></div></div><div class="ui-layout-east ui-layout-pane ui-layout-pane-east" style="position: absolute; margin: 0px; inset: 37px 0px 0px auto; height: 1307px; z-index: 1; width: 200px; visibility: visible; display: none;"><h1 class="pane-head">&nbsp;Debug information</h1><div class="scroll-wrapper" id="debug-wrapper"><div id="ui-debug-display"></div></div></div><div class="ui-layout-center ui-layout-pane ui-layout-pane-center" style="position: absolute; margin: 0px; inset: 37px 0px 0px 479px; height: 1307px; width: 1803px; z-index: 1; visibility: visible; display: block;"><h1 class="pane-head" id="main-title">Visualization display</h1><div class="scroll-wrapper" id="main-wrapper" tabindex="0"><div id="ui-main-display"><h3>Constraint System is Solved</h3><br>
+<br>
+<h3>Constraint system</h3><br>
+<img class="graph" src="Theory%20exDH_EncINDCPA_CCA1_files/split_case_1.png"><br>
+<div class="preformatted sequent"><span class="hl_keyword">last</span>: none<br>
+<br>
+<span class="hl_keyword">formulas</span>:<br>
+<br>
+<span class="hl_keyword">equations</span>:<br>
+&nbsp;&nbsp;<span class="hl_keyword">subst</span>:<br>
+&nbsp;&nbsp;<span class="hl_keyword">conj</span>:<br>
+<br>
+<span class="hl_keyword">lemmas</span>:<br>
+&nbsp;&nbsp;<span class="hl_operator">∀</span> #i #j x<span class="hl_operator">.</span> <span class="hl_operator">(</span>Only_once( x ) <span class="hl_operator">@</span> #i<span class="hl_operator">)</span><span class="hl_operator"> ∧</span> <span class="hl_operator">(</span>Only_once( x ) <span class="hl_operator">@</span> #j<span class="hl_operator">)</span> <span class="hl_operator">⇒</span> #i <span class="hl_operator">=</span> #j<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;<span class="hl_operator">∀</span> x #i<span class="hl_operator">.</span> <span class="hl_operator">(</span>Neq( x, x ) <span class="hl_operator">@</span> #i<span class="hl_operator">)</span> <span class="hl_operator">⇒</span> <span class="hl_operator">⊥</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;<span class="hl_operator">∀</span> x y #i<span class="hl_operator">.</span> <span class="hl_operator">(</span>Eq( x, y ) <span class="hl_operator">@</span> #i<span class="hl_operator">)</span> <span class="hl_operator">⇒</span> x <span class="hl_operator">=</span> y<br>
+<br>
+<span class="hl_keyword">allowed cases</span>: refined<br>
+<br>
+<span class="hl_keyword">solved formulas</span>:<br>
+&nbsp;&nbsp;#i <span class="hl_operator">=</span> #i<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;#vr <span class="hl_operator">=</span> #vr<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;#vr.1 <span class="hl_operator">=</span> #vr.1<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;#vr.4 <span class="hl_operator">=</span> #vr.4<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;h(~na) <span class="hl_operator">=</span> h(~na)<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;<span class="hl_operator">∃</span> C S x #i #o<span class="hl_operator">.</span><br>
+&nbsp;&nbsp;&nbsp;<span class="hl_operator">(</span>A_Secret_na( C, S, x ) <span class="hl_operator">@</span> #i<span class="hl_operator">)</span><span class="hl_operator"> ∧</span> <span class="hl_operator">(</span>Ora( ) <span class="hl_operator">@</span> #o<span class="hl_operator">)</span> <span class="hl_operator">∧</span> <span class="hl_operator">∃</span> #j<span class="hl_operator">.</span> <span class="hl_operator">(</span>K( x ) <span class="hl_operator">@</span> #j<span class="hl_operator">)</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;<span class="hl_operator">∃</span> #j<span class="hl_operator">.</span> <span class="hl_operator">(</span>K( ~na ) <span class="hl_operator">@</span> #j<span class="hl_operator">)</span><br>
+<br>
+<span class="hl_keyword">unsolved goals</span>:<br>
+&nbsp;&nbsp;!KU( &lt;nbk, h(~na)&gt; ) <span class="hl_operator">@</span> #vk.3 <span class="hl_comment">// nr: 9" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( &lt;$A, $B, nbk, h(~na)&gt;<br>
+&nbsp;&nbsp;) <span class="hl_operator">@</span> #vk.4 <span class="hl_comment">// nr: 5" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( $A ) <span class="hl_operator">@</span> #vk.5 <span class="hl_comment">// nr: 6" (currently deducible)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( &lt;$A, $B, nak&gt;<br>
+&nbsp;&nbsp;) <span class="hl_operator">@</span> #vk.6 <span class="hl_comment">// nr: 31" (probably constructible)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( &lt;$B, nbk, h(~na)&gt;<br>
+&nbsp;&nbsp;) <span class="hl_operator">@</span> #vk.7 <span class="hl_comment">// nr: 7" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( $B ) <span class="hl_operator">@</span> #vk.8 <span class="hl_comment">// nr: 8" (currently deducible)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( &lt;$B, nak&gt;<br>
+&nbsp;&nbsp;) <span class="hl_operator">@</span> #vk.9 <span class="hl_comment">// nr: 33" (probably constructible)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( nbk ) <span class="hl_operator">@</span> #vk.10 <span class="hl_comment">// nr: 96" (probably constructible)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( nak ) <span class="hl_operator">@</span> #vk.11 <span class="hl_comment">// nr: 35" (probably constructible)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( inv(x)<br>
+&nbsp;&nbsp;) <span class="hl_operator">@</span> #vk.12 <span class="hl_comment">// nr: 74" (probably constructible)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( x ) <span class="hl_operator">@</span> #vk.13 <span class="hl_comment">// nr: 75" (probably constructible)"</span><br>
+<br>
+<span class="hl_keyword">solved goals</span>:<br>
+&nbsp;&nbsp;A_Secret_na( $A, $B, ~na<br>
+&nbsp;&nbsp;) <span class="hl_operator">@</span> #i <span class="hl_comment">// nr: 0 (from rule A2)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;K( ~na ) <span class="hl_operator">@</span> #j <span class="hl_comment">// nr: 2 (from rule Send)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;Ora( ) <span class="hl_operator">@</span> #o <span class="hl_comment">// nr: 1 (from rule DecOracle)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( ~na<br>
+&nbsp;&nbsp;) <span class="hl_operator">@</span> #vk <span class="hl_comment">// nr: 27 (from rule Coerce)" (currently deducible)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( ~na^(x*PRF(~k, ~r1))<br>
+&nbsp;&nbsp;) <span class="hl_operator">@</span> #vk.1 <span class="hl_comment">// nr: 68 (from rule Coerce)" (currently deducible)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!KU( h(~na)<br>
+&nbsp;&nbsp;) <span class="hl_operator">@</span> #vk.2 <span class="hl_comment">// nr: 21 (from rule Constrc_h)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!A1( ~k, $A, $B<br>
+&nbsp;&nbsp;) ▶₀ #i <span class="hl_comment">// nr: 28 (from rule A2)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;A1_state( $A, $B, ~na<br>
+&nbsp;&nbsp;) ▶₀ #i <span class="hl_comment">// nr: 4 (from rule A2)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;B1_rqn( ~r2 ) ▶₀ #i <span class="hl_comment">// nr: 36 (from rule A2)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!A1( ~k, $A, $B<br>
+&nbsp;&nbsp;) ▶₂ #i <span class="hl_comment">// nr: 12 (from rule A2)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;B1_rqn( ~r2 ) ▶₃ #i <span class="hl_comment">// nr: 13 (from rule A2)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;A1_ora( ~na^PRF(~k, ~r1)<br>
+&nbsp;&nbsp;) ▶₀ #o <span class="hl_comment">// nr: 50 (from rule DecOracle)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;B1_ora( ~nb^PRF(~k, ~r2)<br>
+&nbsp;&nbsp;) ▶₀ #o <span class="hl_comment">// nr: 59 (from rule DecOracle)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;ENC_DEC( ~r1<br>
+&nbsp;&nbsp;) ▶₀ #o <span class="hl_comment">// nr: 46 (from rule DecOracle)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;OraD( ~k<br>
+&nbsp;&nbsp;) ▶₀ #o <span class="hl_comment">// nr: 43 (from rule DecOracle)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;OraD( ~k<br>
+&nbsp;&nbsp;) ▶₁ #o <span class="hl_comment">// nr: 16 (from rule DecOracle)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;ENC_DEC( ~r1<br>
+&nbsp;&nbsp;) ▶₂ #o <span class="hl_comment">// nr: 17 (from rule DecOracle)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;A1_ora( ~na^PRF(~k, ~r1)<br>
+&nbsp;&nbsp;) ▶₃ #o <span class="hl_comment">// nr: 18 (from rule DecOracle)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;B1_ora( ~nb^PRF(~k, ~r2)<br>
+&nbsp;&nbsp;) ▶₄ #o <span class="hl_comment">// nr: 19 (from rule DecOracle)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!A1( ~k, $A, $B<br>
+&nbsp;&nbsp;) ▶₀ #vr <span class="hl_comment">// nr: 24 (from rule A1)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!Id( $A ) ▶₁ #vr.1 <span class="hl_comment">// nr: 25 (from rule Init)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!Id( $B ) ▶₂ #vr.1 <span class="hl_comment">// nr: 26 (from rule Init)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;!B1( ~k, $B, $A<br>
+&nbsp;&nbsp;) ▶₀ #vr.4 <span class="hl_comment">// nr: 37 (from rule B1)" (useful2)"</span><br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;A1_rqn( ~r1<br>
+&nbsp;&nbsp;) ▶₃ #vr.4 <span class="hl_comment">// nr: 38 (from rule B1)" (useful2)"</span></div><br>
+<h3>0 sub-case(s)</h3><br>
+ </div></div></div><ul id="contextMenu"><li class="autoprove"><a href="#autoprove">Autoprove</a></li></ul><div id="" style="position: absolute; padding: 0px; margin: 0px; font-size: 1px; text-align: left; overflow: hidden; z-index: 2; cursor: n-resize; top: 37px; display: none; visibility: visible;" class="ui-layout-resizer ui-layout-resizer-north ui-layout-resizer-open ui-layout-resizer-north-open" title="Resize" aria-disabled="false"><div id="" style="position: absolute; display: block; padding: 0px; margin: 0px; overflow: hidden; text-align: center; font-size: 1px; cursor: pointer; z-index: 1; visibility: visible;" class="ui-layout-toggler ui-layout-toggler-north ui-layout-toggler-open ui-layout-toggler-north-open" title="Close"></div></div><div id="" style="position: absolute; padding: 0px; margin: 0px; font-size: 1px; text-align: left; overflow: hidden; z-index: 2; cursor: w-resize; left: 475px; height: 1307px; width: 4px; top: 37px;" class="ui-layout-resizer ui-layout-resizer-west ui-layout-resizer-open ui-layout-resizer-west-open" title="Resize" aria-disabled="false"><div id="" style="position: absolute; display: block; padding: 0px; margin: 0px; overflow: hidden; text-align: center; font-size: 1px; cursor: pointer; z-index: 1; visibility: visible; height: 50px; width: 4px; top: 628px; left: 0px;" class="ui-layout-toggler ui-layout-toggler-west ui-layout-toggler-open ui-layout-toggler-west-open" title="Close"></div></div><div title="Slide Open" style="cursor: pointer; position: absolute; padding: 0px; margin: 0px; font-size: 1px; text-align: left; overflow: hidden; z-index: 2; right: 0px; display: none;" id="" class="ui-layout-resizer ui-layout-resizer-east ui-layout-resizer-closed ui-layout-resizer-east-closed ui-draggable-disabled" aria-disabled="true"><div id="" style="position: absolute; display: block; padding: 0px; margin: 0px; overflow: hidden; text-align: center; font-size: 1px; cursor: pointer; z-index: 1; visibility: visible;" class="ui-layout-toggler ui-layout-toggler-east ui-layout-toggler-closed ui-layout-toggler-east-closed" title="Open"></div></div><div style="display: none; z-index: 1000; outline: 0px; position: absolute;" class="ui-dialog ui-widget ui-widget-content ui-corner-all  ui-draggable ui-resizable" tabindex="-1" role="dialog" aria-labelledby="ui-dialog-title-dialog"><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title" id="ui-dialog-title-dialog">Message</span><a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a></div><div id="dialog" style="display: block;" class="ui-dialog-content ui-widget-content"></div><div class="ui-resizable-handle ui-resizable-n"></div><div class="ui-resizable-handle ui-resizable-e"></div><div class="ui-resizable-handle ui-resizable-s"></div><div class="ui-resizable-handle ui-resizable-w"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-icon-grip-diagonal-se" style="z-index: 1001;"></div><div class="ui-resizable-handle ui-resizable-sw" style="z-index: 1002;"></div><div class="ui-resizable-handle ui-resizable-ne" style="z-index: 1003;"></div><div class="ui-resizable-handle ui-resizable-nw" style="z-index: 1004;"></div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Ok</span></button></div></div></div></body></html>
