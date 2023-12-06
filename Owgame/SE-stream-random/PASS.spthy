@@ -1,0 +1,33 @@
+theory game_IND_PASS_sym
+begin
+
+builtins: xor
+
+functions: PRF/2
+// enc(x,PRF(k,r))
+
+rule Setup:
+    [ Fr(~k) ]
+  --[ Init_once('1') ]->
+    [ !UseKey(~k) ]
+
+
+rule Attack:
+let
+	c=~m XOR PRF(k,~r)
+in
+    [ !UseKey(k),Fr(~m),Fr(~r)]
+  --[ Init_once('3'),Select(~m) ]->
+    [ Out(c ) ]
+
+
+restriction Init:
+" 
+   All #i #j x. Init_once(x)@i & Init_once(x)@j ==> #i=#j
+"
+
+lemma Guess:
+"
+	All #i m. Select(m) @ i ==> not (Ex #r. K(m) @ r)
+"
+end

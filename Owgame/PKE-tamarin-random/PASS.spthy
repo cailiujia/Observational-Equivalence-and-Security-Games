@@ -1,0 +1,30 @@
+theory CPA
+begin
+builtins: hashing,asymmetric-encryption
+functions: enc/3,dec/2,pk/1
+equations: dec(enc(x,pk(k),r),k)=x
+//flase
+rule register:
+    [ Fr(~sk) ]
+  --[ Init_once('1') ]->
+    [ Out(pk(~sk)),!UseKey(~sk) ]
+
+rule Attack:
+    [ !UseKey(k),Fr(~m),Fr(~r)]
+  --[ Init_once('3'),Select(~m) ]->
+    [ Out(enc(~m,pk(k),~r)) ]
+
+
+
+
+restriction Init:
+" 
+   All a #i #j. Init_once(a)@i & Init_once(a)@j ==> #i=#j
+"
+
+lemma Guess:
+"
+	All #i m. Select(m) @ i ==> not (Ex #r. K(m) @ r)
+"
+
+end

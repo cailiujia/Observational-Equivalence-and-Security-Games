@@ -1,0 +1,57 @@
+theory game_IND_CCA_sym
+begin
+
+builtins: diffie-hellman
+
+functions: PRF/2
+// enc(x,PRF(k,r))
+
+rule Setup:
+    [ Fr(~k) ]
+  --[ Init_once('1') ]->
+    [ !UseKey(~k) ]
+
+
+rule Attack:
+let
+   KR = PRF(k,~r)
+   c = ~m^KR
+in
+    [ !UseKey(k),Fr(~m),Fr(~r)]
+  --[ Init_once('3'),Select(~m) ,Time2()]->
+    [ Out(c ),State(c,~r) ]
+
+rule Attacker_ENCoracle:
+let
+  c= m ^ PRF(k,~r)
+in
+    [ In(m),!UseKey(k),Fr(~r)]
+  --[  ]->
+    [ Out(c) ,State2(~r)]
+
+
+rule Attacker_DECoracle2:
+let
+  m1=x ^ inv(PRF(k,r1))
+  m2=x ^ inv(PRF(k,r2))
+in
+    [ State(c,r1),In(x),!UseKey(k),State2(r2)]
+  --[ Neq(c,x)]->
+    [ Out(<m1,m2>) ]
+
+restriction Neq:
+"
+    All x #i. Neq(x,x) @ i ==> F
+"
+
+restriction Init:
+" 
+   All #i #j x. Init_once(x)@i & Init_once(x)@j ==> #i=#j
+"
+
+lemma Guess:
+"
+  All #i m. Select(m) @ i ==> not (Ex #r. K(m) @ r)
+"
+
+end

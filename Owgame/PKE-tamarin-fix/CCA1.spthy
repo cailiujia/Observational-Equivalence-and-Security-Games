@@ -1,0 +1,39 @@
+theory CCA
+begin
+builtins: hashing,asymmetric-encryption
+functions: enc/2,dec/2,pk/1
+equations: dec(enc(x,pk(k)),k)=x
+//flase
+rule register:
+    [ Fr(~sk) ]
+  --[ Init_once('1') ]->
+    [ Out(pk(~sk)),!UseKey(~sk) ]
+
+rule Attack:
+    [ !UseKey(k),Fr(~m)]
+  --[ Init_once('3'),Select(~m) ,Time2()]->
+    [ Out(enc(~m,pk(k))) ]
+
+rule Attacker_DECoracle:
+    [ In(enc(x,pk(key))),!UseKey(key) ]
+  --[ Init_once('2'),Time1() ]->
+    [ Out(x) ]
+
+
+restriction Time:
+"
+	All #i #j. Time1()@i & Time2()@j ==> #i<#j
+"
+
+
+restriction Init:
+" 
+   All a #i #j. Init_once(a)@i & Init_once(a)@j ==> #i=#j
+"
+
+lemma Guess:
+"
+  All #i m. Select(m) @ i ==> not (Ex #r. K(m) @ r)
+"
+
+end

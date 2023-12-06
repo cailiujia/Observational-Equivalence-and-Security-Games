@@ -1,0 +1,35 @@
+theory game_IND_CPA_sym
+begin
+
+functions: enc/2,dec/2
+equations:dec(enc(x,k),k)=x
+
+
+rule Setup:
+    [ Fr(~k) ]
+  --[ Init_once('1') ]->
+    [ !UseKey(~k) ]
+
+
+rule Attack:
+    [ !UseKey(k),Fr(~m)]
+  --[ Init_once('3'),Select(~m) ]->
+    [ Out(enc(~m,k) ) ]
+
+
+rule Attacker_ENCoracle:
+    [ In(m),!UseKey(k)]
+  --[  ]->
+    [ Out(enc(m,k)) ]
+
+restriction Init:
+" 
+   All #i #j x. Init_once(x)@i & Init_once(x)@j ==> #i=#j
+"
+
+lemma Guess:
+"
+	All #i m. Select(m) @ i ==> not (Ex #r. K(m) @ r)
+"
+
+end
