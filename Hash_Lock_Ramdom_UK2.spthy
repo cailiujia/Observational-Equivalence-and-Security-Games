@@ -1,0 +1,47 @@
+theory Hash_Lock_ramdom begin
+
+builtins: multiset
+
+functions:h/2
+
+rule Setup:
+    [ Fr( ~id1 ), Fr( ~id2 ) ]
+  --[ OnlyOnce('setup') ]->
+    [ Transcript(~id1)
+     , Reader(~id1 + ~id2)
+     , TagRun(diff(~id1,~id2))
+     ]
+
+rule Transcript:
+    [ Transcript(id1)
+    , Fr(~R)
+     ]
+  --[  ]->
+    [ Out(<~R,h(~R,id1)>) 
+    , Out(id1)
+    ]
+
+rule initreader:
+    [ Reader(id1 + id2) ]
+  --[  ]->
+    [ ReaderRun(id1) ]
+
+rule tag1:
+    [ Fr(~r),TagRun(id)]
+  --[  ]->
+    [ Out(<~r,h(~r,id)>) ]
+
+rule reader1:
+    [ In(<~r,h(~r,id)>)
+    ,ReaderRun(id1)
+    ]
+  --[ Eq(id1,id) ]->
+    [ Out(id) ]
+
+restriction onylOnce:
+  "All x #i1 #i2. OnlyOnce(x)@i1 & OnlyOnce(x)@i2 ==> #i1 = #i2"
+
+restriction equality:
+  "∀ x y #i. (Eq( x, y ) @ #i) ⇒ (x = y)"
+
+end
