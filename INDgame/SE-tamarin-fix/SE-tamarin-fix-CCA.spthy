@@ -1,0 +1,41 @@
+theory game_IND_CCA_sym
+begin
+
+functions: enc/2,dec/2
+equations:dec(enc(x,k),k)=x
+
+rule Setup:
+    [ Fr(~k) ]
+  --[ Init_once('1') ]->
+    [ !UseKey(~k) ]
+
+
+rule Attack_diff:
+let
+    c=diff(enc(~m1,k),enc(~m2,k) )
+in
+    [ !UseKey(k),Fr(~m1),Fr(~m2)]
+  --[ Neq(~m1,~m2),Init_once('3'),Time2() ]->
+    [ Out(c ),!State(c) ,Out(<~m1,~m2>)]
+
+rule Attacker_ENCoracle:
+    [ In(m),!UseKey(k)]
+  --[ ]->
+    [ Out(enc(m,k)) ]
+
+rule Attacker_DECoracle2:
+    [ !State(c),In(c1),!UseKey(k) ]
+  --[ Neq(c,c1)]->
+    [ Out(dec(c1,k)) ]
+
+restriction Neq:
+"
+    All x #i. Neq(x,x) @ i ==> F
+"
+
+restriction Init:
+" 
+   All #i #j x. Init_once(x)@i & Init_once(x)@j ==> #i=#j
+"
+
+end

@@ -1,0 +1,64 @@
+theory CCA
+begin
+builtins: hashing,asymmetric-encryption,xor
+functions: enc/2,dec/2,pk/1
+equations: dec(enc(x,pk(y)),y)=x
+
+rule register:
+    [ Fr(~sk) ]
+  --[ Init_once('1') ]->
+    [ Out(pk(~sk)),!Key(~sk) ]
+
+rule Attack_diff:
+let
+  c1 = enc(m1,pk(sk)) XOR ~r1
+  c2 = enc(m2,pk(sk)) XOR ~r2
+in
+    [ !Key(sk),In(m1),In(m2),Fr(~r1) ,Fr(~r2)]
+  --[ Neq(m1,m2) ]->
+    [ Out(diff(c1,c2) ),!State(c1,c2,~r1,~r2) ]
+
+rule Attacker_ENCoracle:
+let
+  c = enc(m,key) XOR ~r
+in
+    [ In(m),!Key(key),Fr(~r)]
+  --[  ]->
+    [ Out(c) ,State2(~r)]
+
+rule Attacker_DECoracle2:
+let
+  m1 = dec((x XOR r1),k)
+  m2 = dec((x XOR r2),k)
+  m3 = dec((x XOR r),k) 
+in
+    [ 
+      !State(c1,c2,r1,r2),
+      In(x),
+      State2(r),
+      !UseKey(k)
+    ]
+  --[ 
+      Neq(c1,x),
+      Neq(c2,x),
+      Init_once('D2') 
+     ]->
+    [ 
+      Out(m1), 
+      Out(m2),
+      Out(m3)
+    ]
+
+
+
+restriction Neq:
+"
+    All x #i. Neq(x,x) @ i ==> F
+"
+
+restriction Init:
+" 
+   All a #i #j. Init_once(a)@i & Init_once(a)@j ==> #i=#j
+"
+
+end

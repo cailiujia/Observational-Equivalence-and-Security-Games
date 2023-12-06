@@ -1,0 +1,35 @@
+theory IND_CCA
+begin
+
+functions: enc/2,dec/2,PRF/2,h/1
+// enc(x,PRF(k,r))
+equations: dec(enc(x,PRF(k,r)),k)=x
+rule Setup:
+    [ Fr(~k) ]
+  --[ Init_once('1') ]->
+    [ !UseKey(~k) ]
+
+rule Select:
+    [Fr(~m1),Fr(~m2)]
+  --[Init_once('2') ]->
+    [ Choose(~m1,~m2),Out(<~m1,~m2>) ]
+
+rule Attack_diff:
+    [ !UseKey(k),Choose(m1,m2),Fr(~r1),Fr(~r2) ]
+  --[ Init_once('3'),Time2() ]->
+    [ Out(diff(enc(m1,PRF(k,~r1)),enc(m2,PRF(k,~r2)) ) ),!State(m1,m2) ]
+
+rule Attacker_ENCoracle:
+    [ In(m),!UseKey(k),Fr(~r)]
+  --[  ]->
+    [ Out(enc(m,PRF(k,~r))) ]
+
+
+
+
+restriction Init:
+" 
+   All #i #j x. Init_once(x)@i & Init_once(x)@j ==> #i=#j
+"
+
+end

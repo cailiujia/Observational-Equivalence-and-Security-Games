@@ -1,0 +1,40 @@
+theory CPA
+begin
+builtins: hashing,asymmetric-encryption,xor
+functions: enc/2,dec/2,pk/1
+equations: dec(enc(x,pk(k)),k)=x
+//flase
+rule register:
+    [ Fr(~sk) ]
+  --[ Init_once('1') ]->
+    [ Out(pk(~sk)),!Key(~sk) ]
+
+rule Attack_diff:
+let
+  c1 = enc(m1,pk(sk)) XOR ~r1
+  c2 = enc(m2,pk(sk)) XOR ~r2
+in
+    [ !Key(sk),In(m1),In(m2),Fr(~r1) ,Fr(~r2)]
+  --[ Neq(m1,m2) ]->
+    [ Out(diff(c1,c2) ) ]
+
+rule Attacker_ENCoracle:
+let
+  c = enc(m,key) XOR ~r
+in
+    [ In(m),!Key(key),Fr(~r)]
+  --[  ]->
+    [ Out(c) ]
+
+
+restriction Neq:
+"
+    All x #i. Neq(x,x) @ i ==> F
+"
+
+restriction Init:
+" 
+   All a #i #j. Init_once(a)@i & Init_once(a)@j ==> #i=#j
+"
+
+end

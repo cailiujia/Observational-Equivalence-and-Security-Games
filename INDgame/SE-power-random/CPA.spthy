@@ -1,0 +1,42 @@
+theory IND_CPA
+begin
+
+builtins: xor,diffie-hellman
+
+functions: PRF/2
+
+rule Setup:
+    [ Fr(~k) ]
+  --[ Init_once('1') ]->
+    [ !UseKey(~k) ]
+
+rule Select:
+    [Fr(~m1),Fr(~m2)]
+  --[Init_once('2') ]->
+    [ Choose(~m1,~m2),Out(<~m1,~m2>) ]
+
+rule Attack_diff:
+let
+  KR1 = PRF(k,~r1)
+  c1 = m1^KR1
+  KR2 = PRF(k,~r2)
+  c2 = m2^KR2
+in
+    [ !UseKey(k),Choose(m1,m2),Fr(~r1),Fr(~r2) ]
+  --[ Init_once('3'),Time2() ]->
+    [ Out(diff(c1, c2) ),!State(m1,m2) ]
+
+rule Attacker_ENCoracle:
+    [ In(m),!UseKey(k),Fr(~r)]
+  --[  ]->
+    [ Out(m^PRF(k,~r)) ]
+
+
+
+
+restriction Init:
+" 
+   All #i #j x. Init_once(x)@i & Init_once(x)@j ==> #i=#j
+"
+
+end
